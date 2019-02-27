@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DZzzz.Net.Http">
+      <HintPath>..\..\libraries\DZzzz.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="DZzzz.Net.Logging">
+      <HintPath>..\..\libraries\DZzzz.Net.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="DZzzz.Net.Serialization">
+      <HintPath>..\..\libraries\DZzzz.Net.Serialization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

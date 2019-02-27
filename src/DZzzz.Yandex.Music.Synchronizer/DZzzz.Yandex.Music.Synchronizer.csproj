@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DZzzz.Yandex.Music.Api\DZzzz.Yandex.Music.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DZzzz.Net.Http">
+      <HintPath>..\..\libraries\DZzzz.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="DZzzz.Net.Logging">
+      <HintPath>..\..\libraries\DZzzz.Net.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="DZzzz.Net.Serialization">
+      <HintPath>..\..\libraries\DZzzz.Net.Serialization.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

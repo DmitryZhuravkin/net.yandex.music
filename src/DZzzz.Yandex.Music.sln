@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DZzzz.Yandex.Music.Api", "DZzzz.Yandex.Music.Api\DZzzz.Yandex.Music.Api.csproj", "{DEA89270-DE23-4E2C-BE83-EEE02976B836}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DZzzz.Yandex.Music.Synchronizer", "DZzzz.Yandex.Music.Synchronizer\DZzzz.Yandex.Music.Synchronizer.csproj", "{FB5234A8-8C32-45D9-BF9E-D2C8FA597B9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEA89270-DE23-4E2C-BE83-EEE02976B836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA89270-DE23-4E2C-BE83-EEE02976B836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA89270-DE23-4E2C-BE83-EEE02976B836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA89270-DE23-4E2C-BE83-EEE02976B836}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB5234A8-8C32-45D9-BF9E-D2C8FA597B9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB5234A8-8C32-45D9-BF9E-D2C8FA597B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB5234A8-8C32-45D9-BF9E-D2C8FA597B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB5234A8-8C32-45D9-BF9E-D2C8FA597B9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {169453B5-AC36-4056-903D-A040AAFB3AFC}
+	EndGlobalSection
+EndGlobal
