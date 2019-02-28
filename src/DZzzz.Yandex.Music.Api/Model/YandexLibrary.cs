@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace DZzzz.Yandex.Music.Api.Model
 {
-    public class Library
+    public class YandexLibrary
     {
         [JsonProperty("success")]
         public bool Success { get; set; }
@@ -13,7 +13,7 @@ namespace DZzzz.Yandex.Music.Api.Model
         public List<long> PlaylistIds { get; set; }
 
         [JsonProperty("playlists")]
-        public List<Playlist> Playlists { get; set; }
+        public List<YandexPlaylist> Playlists { get; set; }
 
         [JsonProperty("hasTracks")]
         public bool HasTracks { get; set; }

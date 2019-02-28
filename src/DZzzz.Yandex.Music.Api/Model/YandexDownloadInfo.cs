@@ -3,7 +3,7 @@
 namespace DZzzz.Yandex.Music.Api.Model
 {
     [XmlRoot(ElementName = "download-info")]
-    public class DownloadInfo
+    public class YandexDownloadInfo
     {
         [XmlElement(ElementName = "host")]
         public string Host { get; set; }

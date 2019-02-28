@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+
 using Newtonsoft.Json;
 
 namespace DZzzz.Yandex.Music.Api.Model
 {
-    public class Track
+    public class YandexTrack
     {
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -17,7 +18,10 @@ namespace DZzzz.Yandex.Music.Api.Model
         [JsonProperty("storageDir")]
         public string StorageDir { get; set; }
 
+        [JsonProperty("fileSize")]
+        public double FileSize { get; set; }
+
         [JsonProperty("artists")]
-        public List<Artist> Artists { get; set; }
+        public List<YandexArtist> Artists { get; set; }
     }
 }

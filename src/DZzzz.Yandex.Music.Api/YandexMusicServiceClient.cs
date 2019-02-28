@@ -8,25 +8,25 @@ using DZzzz.Yandex.Music.Api.Model;
 
 namespace DZzzz.Yandex.Music.Api
 {
-    public class MusicServiceClient : JsonHttpServiceClient
+    public class YandexMusicServiceClient : JsonHttpServiceClient
     {
-        public MusicServiceClient(
+        public YandexMusicServiceClient(
             HttpServiceClientConfiguration configuration,
             IHttpClientFactory httpClientFactory)
             : base(configuration, httpClientFactory)
         {
         }
 
-        public Task<Library> GetLibraryAsync(string owner, string filter)
+        public Task<YandexLibrary> GetLibraryAsync(string owner, string filter)
         {
             string url = $"/handlers/library.jsx?owner={owner}&filter={filter}";
-            return SendRequestWithResultAsync<Library>(url, HttpMethod.Get);
+            return SendRequestWithResultAsync<YandexLibrary>(url, HttpMethod.Get);
         }
 
-        public Task<PlaylistWrapper> GetUserPlaylistAsync(string owner, long playlistKind)
+        public Task<YandexPlaylistWrapper> GetUserPlaylistAsync(string owner, long playlistKind)
         {
             string url = $"/handlers/playlist.jsx?owner={owner}&kinds={playlistKind}";
-            return SendRequestWithResultAsync<PlaylistWrapper>(url, HttpMethod.Get);
+            return SendRequestWithResultAsync<YandexPlaylistWrapper>(url, HttpMethod.Get);
         }
     }
 }

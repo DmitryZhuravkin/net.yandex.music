@@ -2,7 +2,7 @@
 
 namespace DZzzz.Yandex.Music.Api.Model
 {
-    public class Artist
+    public class YandexArtist
     {
         [JsonProperty("id")]
         public long Id { get; set; }

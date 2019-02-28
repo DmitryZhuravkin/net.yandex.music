@@ -1,52 +1,37 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
 
-using DZzzz.Net.Http;
-using DZzzz.Net.Http.Configuration;
-using DZzzz.Net.Http.Interfaces;
-using DZzzz.Yandex.Music.Api;
-using DZzzz.Yandex.Music.Api.Model;
+using DZzzz.Net.Logging.Interfaces;
+using DZzzz.Yandex.Music.Synchronizer.Application;
+using DZzzz.Yandex.Music.Synchronizer.Application.Model;
+using DZzzz.Yandex.Music.Synchronizer.Logging;
+using DZzzz.Yandex.Music.Synchronizer.Queue;
 
 namespace DZzzz.Yandex.Music.Synchronizer
 {
     public class Program
     {
-        private const string UserName = "d.zhuravkin";
-
-        private static readonly IHttpClientFactory clientFactory = new SingleInstanceHttpClientFactory();
-
         public static void Main(string[] args)
         {
-            ProcessAsync().GetAwaiter().GetResult();
-        }
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-        private static async Task ProcessAsync()
-        {
-            HttpServiceClientConfiguration yandexApiConfiguration = new HttpServiceClientConfiguration
+            CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+            ISyncQueue<MusicTrack> musicTrackQueue = new MemorySyncQueue<MusicTrack>();
+            IMusicService musicService = new MusicService(@"e:\music\");
+            ILogger logger = new ConsoleLogger();
+
+            YandexQueueBuilder queueBuilder = new YandexQueueBuilder(musicTrackQueue, musicService, tokenSource.Token, logger);
+
+            using (DownloadService downloadService = new DownloadService(musicTrackQueue, musicService, tokenSource.Token, logger))
             {
-                BaseUrl = "https://music.yandex.ru"
-            };
+                downloadService.Start();
 
-            HttpServiceClientConfiguration storageYandexApiConfiguration = new HttpServiceClientConfiguration
-            {
-                BaseUrl = "http://storage.music.yandex.ru"
-            };
+                queueBuilder.BuildDownloadQueueAsync();
 
-            MusicServiceClient musicServiceClient = new MusicServiceClient(yandexApiConfiguration, clientFactory);
-            MusicStorageServiceClient musicStorageServiceClient = new MusicStorageServiceClient(storageYandexApiConfiguration, clientFactory);
+                Console.ReadKey(true);
 
-            Library library = await musicServiceClient.GetLibraryAsync(UserName, "playlists");
-
-            foreach (Playlist playlistInfo in library.Playlists)
-            {
-                var playlistWrapper = await musicServiceClient.GetUserPlaylistAsync(UserName, playlistInfo.Kind);
-
-                if (playlistWrapper?.Playlist != null)
-                {
-                    foreach (Track playlistTrack in playlistWrapper?.Playlist.Tracks)
-                    {
-                        string url = await musicStorageServiceClient.GetTrackDonwloadUriAsync(playlistTrack.StorageDir);
-                    }
-                }
+                tokenSource.Cancel();
             }
         }
     }

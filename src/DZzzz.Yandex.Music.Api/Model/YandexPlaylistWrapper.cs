@@ -2,9 +2,9 @@
 
 namespace DZzzz.Yandex.Music.Api.Model
 {
-    public class PlaylistWrapper
+    public class YandexPlaylistWrapper
     {
         [JsonProperty("playlist")]
-        public Playlist Playlist { get; set; }
+        public YandexPlaylist Playlist { get; set; }
     }
 }

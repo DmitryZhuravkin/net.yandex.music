@@ -10,9 +10,9 @@ using DZzzz.Yandex.Music.Api.Model;
 
 namespace DZzzz.Yandex.Music.Api
 {
-    public class MusicStorageServiceClient : XmlHttpServiceClient
+    public class YandexMusicStorageServiceClient : XmlHttpServiceClient
     {
-        public MusicStorageServiceClient(
+        public YandexMusicStorageServiceClient(
             HttpServiceClientConfiguration configuration,
             IHttpClientFactory httpClientFactory)
             : base(configuration, httpClientFactory)
@@ -23,12 +23,12 @@ namespace DZzzz.Yandex.Music.Api
         {
             string url = $"/download-info/{trackStorageDir}/2.mp3";
 
-            DownloadInfo info = await SendRequestWithResultAsync<DownloadInfo>(url, HttpMethod.Get).ConfigureAwait(false);
+            YandexDownloadInfo info = await SendRequestWithResultAsync<YandexDownloadInfo>(url, HttpMethod.Get).ConfigureAwait(false);
 
             return BuildFileUri(info);
         }
 
-        private string BuildFileUri(DownloadInfo info)
+        private string BuildFileUri(YandexDownloadInfo info)
         {
             using (MD5CryptoServiceProvider provider = new MD5CryptoServiceProvider())
             {
