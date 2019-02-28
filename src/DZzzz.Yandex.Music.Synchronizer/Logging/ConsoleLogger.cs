@@ -10,7 +10,7 @@ namespace DZzzz.Yandex.Music.Synchronizer.Logging
     {
         public void Write<T>(string message, LogLevel logLevel = LogLevel.Info, Exception e = null)
         {
-            string formattedMessage = $"[{logLevel,-5}] [{Thread.CurrentThread.ManagedThreadId, -10}] [{message,-50}]";
+            string formattedMessage = $"[{logLevel,-5}] [{Thread.CurrentThread.ManagedThreadId,-10}] {message}";
 
             if (e != null)
             {

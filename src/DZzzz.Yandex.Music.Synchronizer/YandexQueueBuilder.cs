@@ -74,8 +74,6 @@ namespace DZzzz.Yandex.Music.Synchronizer
 
                 if (!musicService.IsTrackAlreadyExists(track))
                 {
-                    logger.Write<YandexQueueBuilder>($"Enqueue. {track.Playlist}:{track.Title}");
-
                     track.DownloadUrl = await musicStorageServiceClient.GetTrackDonwloadUriAsync(yandexTrack.StorageDir).ConfigureAwait(false);
 
                     queue.Enqueue(track);

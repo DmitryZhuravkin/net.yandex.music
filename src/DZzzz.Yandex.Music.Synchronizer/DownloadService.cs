@@ -85,8 +85,10 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application
 
                             if (trackLocations != null && trackLocations.Any())
                             {
-                                //DownloadAsync(musicTrack.DownloadUrl, trackLocation).GetAwaiter().GetResult();
-                                logger.Write<DownloadService>($"Download. Finish. {musicTrack.Playlist}: {musicTrack.Title}. Location: {trackLocations[0]}.");
+                                DownloadAsync(musicTrack.DownloadUrl, trackLocations).GetAwaiter().GetResult();
+                                logger.Write<DownloadService>($"Download. Finish. {musicTrack.Playlist}: {musicTrack.Title}.");
+
+                                musicService.UpdateMusicTrackTags(musicTrack, trackLocations);
                             }
                         }
                     }
@@ -129,6 +131,7 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application
                     {
                         foreach (string file in files)
                         {
+                            contentStream.Seek(0, SeekOrigin.Begin);
                             await SaveFileAsync(contentStream, file);
                         }
                     }

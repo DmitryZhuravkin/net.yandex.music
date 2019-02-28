@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -41,16 +42,21 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application
             return locations;
         }
 
+        public void UpdateMusicTrackTags(MusicTrack track, List<string> musicTrackLocations)
+        {
+            // TODO:
+        }
+
         private string BuildMusicTrackLocation(MusicTrack musicTrack, string playlist)
         {
             string playlistSp = RemoveSpecialCharactersFromPath(playlist);
             string playlistFolderLocation = Path.Combine(library, playlistSp);
             CreateFolderIfNoExists(playlistFolderLocation);
 
-            string artist = RemoveSpecialCharactersFromFileName(string.Join(", ", musicTrack.Artists.Select(c => c.Title)));
+            string artist = RemoveSpecialCharactersFromFileName(musicTrack.GetArtistName());
             string title = RemoveSpecialCharactersFromFileName(musicTrack.Title);
 
-            string fileLocation = Path.Combine(playlistFolderLocation, $"{GetSmallTitle(artist)} - {GetSmallTitle(title)}.{musicTrack.Extension}");
+            string fileLocation = Path.Combine(playlistFolderLocation, $"{GetSmallTitle(artist)} - {title}.{musicTrack.Extension}");
 
             return fileLocation;
         }
@@ -67,12 +73,22 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application
 
         private static string RemoveSpecialCharactersFromFileName(string str)
         {
-            return str.Trim(Path.GetInvalidFileNameChars());
+            if (!String.IsNullOrWhiteSpace(str))
+            {
+                return str.Trim(Path.GetInvalidFileNameChars()).Replace("\\", "-").Replace("/", "-");
+            }
+
+            return str;
         }
 
         private static string RemoveSpecialCharactersFromPath(string str)
         {
-            return str.Trim(Path.GetInvalidPathChars());
+            if (!String.IsNullOrWhiteSpace(str))
+            {
+                return str.Trim(Path.GetInvalidPathChars());
+            }
+
+            return str;
         }
 
         private static void CreateFolderIfNoExists(string folder)

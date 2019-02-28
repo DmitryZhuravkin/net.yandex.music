@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace DZzzz.Yandex.Music.Synchronizer.Application.Model
 {
@@ -28,6 +29,11 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application.Model
         }
 
         #endregion
+
+        public string GetArtistName()
+        {
+            return Artists?.FirstOrDefault()?.Title;
+        }
 
         #endregion
     }

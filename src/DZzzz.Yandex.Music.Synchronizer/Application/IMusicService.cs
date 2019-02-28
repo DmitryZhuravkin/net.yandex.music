@@ -8,5 +8,6 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application
     {
         bool IsTrackAlreadyExists(MusicTrack track);
         List<string> GetMusicTrackLocations(MusicTrack track);
+        void UpdateMusicTrackTags(MusicTrack track, List<string> musicTrackLocations);
     }
 }
