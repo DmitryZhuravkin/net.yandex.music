@@ -10,10 +10,11 @@ using DZzzz.Net.Http;
 using DZzzz.Net.Http.Interfaces;
 using DZzzz.Net.Logging.Interfaces;
 using DZzzz.Net.Logging.Model;
+using DZzzz.Yandex.Music.Synchronizer.Application;
 using DZzzz.Yandex.Music.Synchronizer.Application.Model;
 using DZzzz.Yandex.Music.Synchronizer.Queue;
 
-namespace DZzzz.Yandex.Music.Synchronizer.Application
+namespace DZzzz.Yandex.Music.Synchronizer
 {
     public class DownloadService : IDisposable
     {
@@ -23,11 +24,11 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application
         private readonly IMusicService musicService;
         private readonly IHttpClientFactory clientFactory = new SingleInstanceHttpClientFactory();
 
-        private const int ThreadsCount = 30;
-        private const int ParallelOperationsCount = 20;
+        private const int ThreadsCount = 10;
+        private const int ParallelOperationsCount = 5;
         private readonly SemaphoreSlim semaphoreSlim = new SemaphoreSlim(ParallelOperationsCount);
 
-        private List<Thread> threads = new List<Thread>();
+        private readonly List<Thread> threads = new List<Thread>();
 
         public DownloadService(ISyncQueue<MusicTrack> queue, IMusicService musicService,
             CancellationToken cancellationToken, ILogger logger)
@@ -63,44 +64,41 @@ namespace DZzzz.Yandex.Music.Synchronizer.Application
 
         private void ProcessThreadHandler(object state)
         {
-            try
+            while (!cancellationToken.IsCancellationRequested)
             {
-                while (!cancellationToken.IsCancellationRequested)
+                if (!semaphoreSlim.Wait(2000))
                 {
-                    if (!semaphoreSlim.Wait(2000))
-                    {
-                        Thread.Sleep(500);
-                        continue;
-                    }
+                    Thread.Sleep(500);
+                    continue;
+                }
 
-                    try
-                    {
-                        MusicTrack musicTrack = queue.TryDequeue();
+                try
+                {
+                    MusicTrack musicTrack = queue.TryDequeue();
 
-                        if (musicTrack != null)
+                    if (musicTrack != null)
+                    {
+                        logger.Write<DownloadService>($"Download. Start. {musicTrack.Playlist}: {musicTrack.Title}");
+
+                        List<string> trackLocations = musicService.GetMusicTrackLocations(musicTrack);
+
+                        if (trackLocations != null && trackLocations.Any())
                         {
-                            logger.Write<DownloadService>($"Download. Start. {musicTrack.Playlist}: {musicTrack.Title}");
+                            DownloadAsync(musicTrack.DownloadUrl, trackLocations).GetAwaiter().GetResult();
+                            logger.Write<DownloadService>($"Download. Finish. {musicTrack.Playlist}: {musicTrack.Title}.");
 
-                            List<string> trackLocations = musicService.GetMusicTrackLocations(musicTrack);
-
-                            if (trackLocations != null && trackLocations.Any())
-                            {
-                                DownloadAsync(musicTrack.DownloadUrl, trackLocations).GetAwaiter().GetResult();
-                                logger.Write<DownloadService>($"Download. Finish. {musicTrack.Playlist}: {musicTrack.Title}.");
-
-                                musicService.UpdateMusicTrackTags(musicTrack, trackLocations);
-                            }
+                            musicService.UpdateMusicTrackTags(musicTrack, trackLocations);
                         }
                     }
-                    finally
-                    {
-                        semaphoreSlim.Release();
-                    }
                 }
-            }
-            catch (Exception e)
-            {
-                logger.Write<DownloadService>($"{nameof(ProcessThreadHandler)}", LogLevel.Error, e);
+                catch (Exception e)
+                {
+                    logger.Write<DownloadService>($"{nameof(ProcessThreadHandler)}", LogLevel.Error, e);
+                }
+                finally
+                {
+                    semaphoreSlim.Release();
+                }
             }
         }
 

@@ -18,7 +18,7 @@ namespace DZzzz.Yandex.Music.Synchronizer
             CancellationTokenSource tokenSource = new CancellationTokenSource();
 
             ISyncQueue<MusicTrack> musicTrackQueue = new MemorySyncQueue<MusicTrack>();
-            IMusicService musicService = new MusicService(@"e:\music\");
+            IMusicService musicService = new MusicService(@"d:\music\");
             ILogger logger = new ConsoleLogger();
 
             YandexQueueBuilder queueBuilder = new YandexQueueBuilder(musicTrackQueue, musicService, tokenSource.Token, logger);
@@ -27,6 +27,7 @@ namespace DZzzz.Yandex.Music.Synchronizer
             {
                 downloadService.Start();
 
+                // todo: need to have a way about notification where the uploading tracks from yandex is finished
                 queueBuilder.BuildDownloadQueueAsync();
 
                 Console.ReadKey(true);

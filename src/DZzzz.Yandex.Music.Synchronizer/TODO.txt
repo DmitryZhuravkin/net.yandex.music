@@ -1,0 +1,3 @@
+﻿Make configuration: User Name, Playlist Name (to upload just one playlist), Max parallel operation
+Notification from Yandex Queue Builder when data is ready
+Logger
